@@ -1,4 +1,4 @@
-﻿Shader "BRDF/NormalizedPhong"
+﻿Shader "BRDF/Blinn-Phong"
 {
 	Properties
 	{
@@ -20,13 +20,10 @@
 			float _Smoothness;
             
 			fixed4 brdf(float3 lightDir, float3 normal, float3 viewDir) {
-			    float3 lightReflectionDir = reflect(-lightDir,normal);
-			    float4 specularity = _Specular * pow(saturate(dot(lightReflectionDir,viewDir)),_Smoothness);
 			    
-			    //normalize
-			    specularity = specularity * ((_Smoothness+2)/2);
+			    float3 halfVector = normalize(lightDir + viewDir);
 			    
-			    return _Diffuse + specularity;
+			    return _Diffuse + _Specular * pow(saturate(dot(halfVector,normal)),_Smoothness);
 			}
 			
 			#include "BRDFCommon.cginc"
