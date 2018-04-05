@@ -15,7 +15,7 @@
 			
 			fixed4 _Color;
             
-			fixed4 brdf(float3 lightDir, float3 normal) {
+			fixed4 brdf(float3 lightDir, float3 normal,float3 viewDir) {
 			    return _Color;
 			}
 			

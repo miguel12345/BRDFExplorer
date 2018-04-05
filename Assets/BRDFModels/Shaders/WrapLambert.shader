@@ -17,7 +17,7 @@
 			fixed4 _Color;
 			float _Wrap;
             
-			fixed4 brdf(float3 lightDir, float3 normal) {
+			fixed4 brdf(float3 lightDir, float3 normal,float3 viewDir) {
 			    return _Color;
 			}
 			
@@ -32,9 +32,11 @@
                 
                 float cosineFactor = saturate( (dot(lightDirection,i.worldNormal)+_Wrap)/(1+_Wrap) );
                 
+                 float3 viewDir = normalize(UnityWorldSpaceViewDir(i.worldPos));
+                
                 fixed4 irradianceAtSurface = _LightColor0 * cosineFactor;
                 
-                return brdf(lightDirection,i.worldNormal) * irradianceAtSurface;
+                return brdf(lightDirection,i.worldNormal,viewDir) * irradianceAtSurface;
             }
 			
 			ENDCG
