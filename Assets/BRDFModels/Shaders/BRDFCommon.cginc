@@ -38,5 +38,5 @@ fixed4 frag (v2f i) : SV_Target
     
     fixed4 irradianceAtSurface = _LightColor0 * cosineFactor;
     
-    return brdf(lightDirection,i.worldNormal,viewDir) * irradianceAtSurface;
+    return brdf(lightDirection,normalize(i.worldNormal),viewDir) * irradianceAtSurface;
 }

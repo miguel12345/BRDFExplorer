@@ -4,7 +4,7 @@
 	{
 		_Diffuse ("Diffuse", Color) = (1,1,1,1)
 		_Specular ("Specular color", Color) = (1,1,1,1)
-		_Smoothness ("Smoothness", Range(0,100)) = 1
+		_Smoothness ("Smoothness", Range(0,300)) = 1
 	}
 	SubShader
 	{
