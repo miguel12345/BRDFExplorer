@@ -21,7 +21,7 @@
 			    return _Color;
 			}
 			
-			#include "BRDFCommon.cginc"
+			#include "BRDFVertFrag.cginc"
 			
 			#pragma vertex vert
             #pragma fragment fragWrap

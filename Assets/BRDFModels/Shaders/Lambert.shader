@@ -18,9 +18,9 @@
 			fixed4 brdf(float3 lightDir, float3 normal,float3 viewDir) {
 			    return _Color;
 			}
-			
-			#include "BRDFCommon.cginc"
-			
+
+			#include "BRDFVertFrag.cginc"
+						
 			#pragma vertex vert
             #pragma fragment frag
 			

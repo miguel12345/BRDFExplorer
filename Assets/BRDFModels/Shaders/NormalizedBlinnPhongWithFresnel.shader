@@ -1,4 +1,4 @@
-﻿Shader "BRDF/Normalized Blinn-Phong"
+﻿Shader "BRDF/Normalized Blinn-Phong with Fresnel"
 {
 	Properties
 	{
@@ -17,20 +17,24 @@
 			
 			#include "BRDFUtils.cginc"
 			
-			fixed4 _Diffuse;
-			fixed4 _Specular;
+			fixed3 _Diffuse;
+			fixed3 _Specular;
 			float _Smoothness;
             
 			fixed4 brdf(float3 lightDir, float3 normal, float3 viewDir) {
 			    
 			    float3 halfVector = normalize(lightDir + viewDir);
+			    float lh = clampedCosine(lightDir, halfVector);
 			    
-			    float4 specularity =  pow(clampedCosine(halfVector,normal),_Smoothness);
+			    float3 specularity =  pow(clampedCosine(halfVector,normal),_Smoothness);
 			    
 			    //normalize
 			    specularity = specularity * ((_Smoothness+8)/8);
 			    
-			    return _Diffuse + _Specular * specularity;
+			    half3 color = _Diffuse + fresnelTerm (_Specular, lh) * specularity;
+			    //half3 color = _Diffuse + _Specular * specularity;
+			    
+			    return half4(color,1.0);
 			}
 
 			#include "BRDFVertFrag.cginc"

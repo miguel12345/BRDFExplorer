@@ -15,13 +15,15 @@
 		{
 			CGPROGRAM
 			
+			#include "BRDFUtils.cginc"
+			
 			fixed4 _Diffuse;
 			fixed4 _Specular;
 			float _Smoothness;
             
 			fixed4 brdf(float3 lightDir, float3 normal, float3 viewDir) {
 			    float3 lightReflectionDir = reflect(-lightDir,normal);
-			    float4 specularity = _Specular * pow(saturate(dot(lightReflectionDir,viewDir)),_Smoothness);
+			    float4 specularity = _Specular * pow(clampedCosine(lightReflectionDir,viewDir),_Smoothness);
 			    
 			    //normalize
 			    specularity = specularity * ((_Smoothness+2)/2);
@@ -29,7 +31,7 @@
 			    return _Diffuse + specularity;
 			}
 			
-			#include "BRDFCommon.cginc"
+			#include "BRDFVertFrag.cginc"
 			
 			#pragma vertex vert
             #pragma fragment frag

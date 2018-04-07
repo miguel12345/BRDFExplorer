@@ -28,15 +28,20 @@ v2f vert (appdata v)
     return o;
 }
 
+
 fixed4 frag (v2f i) : SV_Target
 {
     float3 lightDirection = -_WorldSpaceLightPos0.xyz;
+    
+    float3 interpolatedWorldNormal = normalize(i.worldNormal);
     
     float cosineFactor = saturate(dot(lightDirection,i.worldNormal));
     
     float3 viewDir = normalize(UnityWorldSpaceViewDir(i.worldPos));
     
-    fixed4 irradianceAtSurface = _LightColor0 * cosineFactor;
+    float3 viewReflectionDir = reflect(-viewDir,interpolatedWorldNormal);
     
-    return brdf(lightDirection,normalize(i.worldNormal),viewDir) * irradianceAtSurface;
+    fixed4 lightIrradianceAtSurface = _LightColor0 * cosineFactor;
+    
+    return brdf(lightDirection,interpolatedWorldNormal,viewDir) * lightIrradianceAtSurface;
 }

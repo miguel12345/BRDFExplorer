@@ -15,6 +15,8 @@
 		{
 			CGPROGRAM
 			
+			#include "BRDFUtils.cginc"
+			
 			fixed4 _Diffuse;
 			fixed4 _Specular;
 			float _Smoothness;
@@ -23,10 +25,10 @@
 			    
 			    float3 halfVector = normalize(lightDir + viewDir);
 			    
-			    return _Diffuse + _Specular * pow(saturate(dot(halfVector,normal)),_Smoothness);
+			    return _Diffuse + _Specular * pow(clampedCosine(halfVector,normal),_Smoothness);
 			}
 			
-			#include "BRDFCommon.cginc"
+			#include "BRDFVertFrag.cginc"
 			
 			#pragma vertex vert
             #pragma fragment frag
